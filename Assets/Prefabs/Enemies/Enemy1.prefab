@@ -129,7 +129,7 @@ MonoBehaviour:
   - {fileID: 4329087291729652, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
   - {fileID: 4713021489804690, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
   - {fileID: 4096232909761706, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
-  navigationUpdate: 1
+  navigationUpdate: 0.01
 --- !u!212 &212602643027622102
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -118,9 +118,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: 0
-  exitPoint: {fileID: 0}
-  wayPoints: []
-  navigationUpdate: 0
+  exitPoint: {fileID: 4004761305166410, guid: c2d99e802f4819348a1122bd8f6c14cf, type: 2}
+  wayPoints:
+  - {fileID: 4667992139654484, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4363700812131180, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4557731387494390, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4006874382077522, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4326702632161446, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4151070251391604, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4329087291729652, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4713021489804690, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  - {fileID: 4096232909761706, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}
+  navigationUpdate: 0.01
 --- !u!212 &212829572755062944
 SpriteRenderer:
   m_ObjectHideFlags: 1
