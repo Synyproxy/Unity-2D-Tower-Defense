@@ -21,7 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int enemiesPerSpawn;
 
-    private int enemiesOnScreen;
+    [SerializeField]
+    const float spawnDelay = 0.5f;
+
+    private int enemiesOnScreen = 0;
 
     private void Awake()    //Singleton Pattern with Loader script on the Camera
     {
@@ -35,16 +38,22 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnEnemy();
+        StartCoroutine(Spawn());
     }
 
-    void SpawnEnemy()
+    public void RemoveEnemyFromScreen()
     {
-        if(enemiesPerSpawn > 0 && enemiesOnScreen < totalEnemies)
+        if (enemiesOnScreen > 0)
+            --enemiesOnScreen;
+    }
+
+    IEnumerator Spawn()
+    {
+        if (enemiesPerSpawn > 0 && enemiesOnScreen < totalEnemies)
         {
-            for(int i = 0; i < enemiesPerSpawn; ++i)
+            for (int i = 0; i < enemiesPerSpawn; ++i)
             {
-                if(enemiesOnScreen < maxEnemiesOnScreen)
+                if (enemiesOnScreen < maxEnemiesOnScreen)
                 {
                     GameObject newEmey = Instantiate(enemies[0]) as GameObject;
                     newEmey.transform.position = spawnPoint.transform.position;
@@ -52,13 +61,10 @@ public class GameManager : MonoBehaviour
                     ++enemiesOnScreen;
                 }
             }
-        }
-    }
 
-    public void RemoveEnemyFromScreen()
-    {
-        if (enemiesOnScreen > 0)
-            --enemiesOnScreen;
+            yield return new WaitForSeconds(spawnDelay);
+            StartCoroutine(Spawn());
+        }
     }
 
 }
