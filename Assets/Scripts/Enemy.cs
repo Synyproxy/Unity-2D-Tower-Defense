@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour {
         }
         else if (other.tag == "Finish")
         {
-            GameManager.instance.RemoveEnemyFromScreen();
+            GameManager.Instance.RemoveEnemyFromScreen();
             Destroy(gameObject);
         }
             

@@ -1,11 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-
-    public static GameManager instance;
-
     [SerializeField]
     private GameObject spawnPoint;
 
@@ -25,16 +22,6 @@ public class GameManager : MonoBehaviour
     const float spawnDelay = 0.5f;
 
     private int enemiesOnScreen = 0;
-
-    private void Awake()    //Singleton Pattern with Loader script on the Camera
-    {
-        if (instance == null)
-            instance = this;
-        else if (instance != null)
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
-    }
 
     private void Start()
     {
