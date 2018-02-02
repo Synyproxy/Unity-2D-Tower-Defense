@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: 3990064c3fc7dfc4faecf229e2b3bed7
-timeCreated: 1517504770
+timeCreated: 1517599177
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: rockTower
     21300002: castleTower
     21300004: knightTower
+    21300006: ScoreBoard
+    21300008: PlayBtn
+    21300010: towerDisplay
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -121,7 +124,7 @@ TextureImporter:
         width: 169
         height: 210
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 1, z: 1, w: 1}
       outline: []
       physicsShape: []
@@ -135,7 +138,7 @@ TextureImporter:
         width: 172
         height: 212
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -148,6 +151,48 @@ TextureImporter:
         y: 19
         width: 172
         height: 211
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ScoreBoard
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 1184
+        width: 250
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayBtn
+      rect:
+        serializedVersion: 2
+        x: 1235
+        y: 1417
+        width: 377
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: towerDisplay
+      rect:
+        serializedVersion: 2
+        x: 1543
+        y: 2264
+        width: 69
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
