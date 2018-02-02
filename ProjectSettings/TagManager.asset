@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - WayPoint
+  - BuildSite
+  - Ground
+  - Tower
   layers:
   - Default
   - TransparentFX
