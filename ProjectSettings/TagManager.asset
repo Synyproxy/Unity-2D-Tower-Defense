@@ -9,6 +9,7 @@ TagManager:
   - BuildSite
   - Ground
   - Tower
+  - Projectile
   layers:
   - Default
   - TransparentFX

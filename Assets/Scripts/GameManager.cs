@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -21,31 +22,23 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     const float spawnDelay = 0.5f;
 
-    private int enemiesOnScreen = 0;
+    public List<Enemy> enemyList = new List<Enemy>();
 
     private void Start()
     {
         StartCoroutine(Spawn());
     }
 
-    public void RemoveEnemyFromScreen()
-    {
-        if (enemiesOnScreen > 0)
-            --enemiesOnScreen;
-    }
-
     IEnumerator Spawn()
     {
-        if (enemiesPerSpawn > 0 && enemiesOnScreen < totalEnemies)
+        if (enemiesPerSpawn > 0 && enemyList.Count < totalEnemies)
         {
             for (int i = 0; i < enemiesPerSpawn; ++i)
             {
-                if (enemiesOnScreen < maxEnemiesOnScreen)
+                if (enemyList.Count < maxEnemiesOnScreen)
                 {
                     GameObject newEmey = Instantiate(enemies[0]) as GameObject;
                     newEmey.transform.position = spawnPoint.transform.position;
-
-                    ++enemiesOnScreen;
                 }
             }
 
@@ -54,4 +47,24 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void RegisterEnemy(Enemy enemy)
+    {
+        enemyList.Add(enemy);
+    }
+
+    public void UnregisterEnemy(Enemy enemy)
+    {
+        enemyList.Remove(enemy);
+        Destroy(enemy.gameObject);
+    }
+
+    public void DestroyAllEnemies()
+    {
+        foreach(Enemy enemy in enemyList)
+        {
+            Destroy(enemy.gameObject);
+        }
+
+        enemyList.Clear();
+    }
 }
