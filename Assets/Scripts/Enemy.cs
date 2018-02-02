@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour {
 
     private Transform enemy;
     private Collider2D enemyCollider;
+    private Animator anim;
     private int target = 0;
     private float navigationTime = 0;
     private bool isDead = false;
@@ -31,8 +32,9 @@ public class Enemy : MonoBehaviour {
     void Start ()
     {
         enemy = GetComponent<Transform>();
-        GameManager.Instance.RegisterEnemy(this);
         enemyCollider = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+        GameManager.Instance.RegisterEnemy(this);
 	}
 	
 	void Update ()
@@ -80,12 +82,12 @@ public class Enemy : MonoBehaviour {
         if(healthPoints - hitPoints > 0)
         {
             healthPoints -= hitPoints;
-            //Hurt Animation
+            anim.Play("Hurt");
         }
         else
         {
-            //Enemy die and animation
             Die();
+            anim.SetTrigger("didDie");
         }
     }
 
