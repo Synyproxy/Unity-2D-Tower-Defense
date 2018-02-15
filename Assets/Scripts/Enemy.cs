@@ -6,6 +6,9 @@ public class Enemy : MonoBehaviour {
     private int healthPoints;
 
     [SerializeField]
+    private int rewardAmount;
+
+    [SerializeField]
     private Transform exitPoint;
 
     [SerializeField]
@@ -68,6 +71,10 @@ public class Enemy : MonoBehaviour {
         else if (other.tag == "Finish")
         {
             GameManager.Instance.UnregisterEnemy(this);
+            GameManager.Instance.RoundEscaped += 1;
+            GameManager.Instance.TotalEscaped += 1;
+            GameManager.Instance.IsWaveOver();
+
         } else if(other.tag == "Projectile")
         {
             Projectile projectile = other.gameObject.GetComponent<Projectile>();
@@ -95,5 +102,8 @@ public class Enemy : MonoBehaviour {
     {
         isDead = true;
         enemyCollider.enabled = false;
+        GameManager.Instance.TotalKilled += 1;
+        GameManager.Instance.AddMoney(rewardAmount);
+        GameManager.Instance.IsWaveOver();
     }
 }

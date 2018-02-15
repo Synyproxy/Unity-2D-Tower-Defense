@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPoints: 100
+  rewardAmount: 1
   exitPoint: {fileID: 4004761305166410, guid: c2d99e802f4819348a1122bd8f6c14cf, type: 2}
   wayPoints:
   - {fileID: 4667992139654484, guid: 95a4a6ffa96530941b976b0f4e4aeb4f, type: 2}

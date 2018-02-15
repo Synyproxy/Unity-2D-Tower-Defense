@@ -1,9 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum GameStatus
+{
+    Next,
+    Play,
+    GameOver,
+    Win
+};
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField]
+    private int totalWaves = 10;
+
+    [SerializeField]
+    private Text totalMoneyLbl;
+
+    [SerializeField]
+    private Text playBtnLbl;
+
+    [SerializeField]
+    private Button playBtn;
+
+    [SerializeField]
+    private Text currentWaveLbl;
+
+    [SerializeField]
+    private Text totalEscapedLbl;
+
     [SerializeField]
     private GameObject spawnPoint;
 
@@ -11,10 +38,7 @@ public class GameManager : Singleton<GameManager>
     private GameObject[] enemies;
 
     [SerializeField]
-    private int maxEnemiesOnScreen;
-
-    [SerializeField]
-    private int totalEnemies;
+    private int totalEnemies = 3;
 
     [SerializeField]
     private int enemiesPerSpawn;
@@ -24,9 +48,23 @@ public class GameManager : Singleton<GameManager>
 
     public List<Enemy> enemyList = new List<Enemy>();
 
+    private int waveNumber = 0;
+    private int totalMoney = 10;
+    private int totalEscaped = 0;
+    private int roundEscaped = 0;
+    private int totalKilled = 0;
+    private int enemySelector = 0;
+    private GameStatus currentState = GameStatus.Play;
+
     private void Start()
     {
-        StartCoroutine(Spawn());
+        playBtn.gameObject.SetActive(false);
+        ShowMenu();
+    }
+
+    private void Update()
+    {
+        HandleEscpace();
     }
 
     IEnumerator Spawn()
@@ -35,7 +73,7 @@ public class GameManager : Singleton<GameManager>
         {
             for (int i = 0; i < enemiesPerSpawn; ++i)
             {
-                if (enemyList.Count < maxEnemiesOnScreen)
+                if (enemyList.Count < totalEnemies)
                 {
                     GameObject newEmey = Instantiate(enemies[0]) as GameObject;
                     newEmey.transform.position = spawnPoint.transform.position;
@@ -66,5 +104,163 @@ public class GameManager : Singleton<GameManager>
         }
 
         enemyList.Clear();
+    }
+
+    public void AddMoney(int amount)
+    {
+        totalMoney += amount;
+        totalMoneyLbl.text = totalMoney.ToString();
+    }
+
+    public void SubtractMoney(int amount)
+    {
+        totalMoney -= amount;
+        totalMoneyLbl.text = totalMoney.ToString();
+    }
+
+    public void ShowMenu()
+    {
+        switch (currentState)
+        {
+            case GameStatus.GameOver:
+                playBtnLbl.text = "Play Again";
+                //GameOver Sound
+                break;
+
+            case GameStatus.Next:
+                playBtnLbl.text = "Next Wave";
+                break;
+
+            case GameStatus.Play:
+                playBtnLbl.text = "Play";
+                break;
+
+            case GameStatus.Win:
+                playBtnLbl.text = "Play";
+                break;
+        }
+
+        playBtn.gameObject.SetActive(true);
+    }
+
+    private void HandleEscpace()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            TowerManager.Instance.DisableDragSprite();
+            TowerManager.Instance.towerBtnPressed = null;
+        }
+    }
+
+    public void IsWaveOver()
+    {
+        totalEscapedLbl.text = "Escaped " + TotalEscaped + "/10";
+
+        //Wave is over
+        if(roundEscaped + totalKilled == totalEnemies)
+        {
+
+            SetCurrentGameState();
+            ShowMenu();
+        }
+    }
+
+    public void PlayBtnPressed()
+    {
+        switch(currentState)
+        {
+            case GameStatus.Next:
+                ++waveNumber;
+                totalEnemies += waveNumber;
+                break;
+            default:
+                totalEnemies = 3;
+                totalEscaped = 0;
+                totalMoney = 10;
+                TowerManager.Instance.DestroyAllTowers();
+                TowerManager.Instance.RenameTagsBuildSites();
+                totalMoneyLbl.text = totalMoney.ToString();
+                currentWaveLbl.text = "Wave " + waveNumber.ToString();
+                totalEscapedLbl.text = "Escaped " + TotalEscaped + "/10";
+
+                break;
+        }
+
+        DestroyAllEnemies();
+        TotalKilled = 0;
+        roundEscaped = 0;
+        currentWaveLbl.text = "Wave " + (waveNumber + 1);
+        StartCoroutine(Spawn());
+        playBtn.gameObject.SetActive(false);
+    }
+
+    public void SetCurrentGameState()
+    {
+        if(totalEscaped >= 10)
+        {
+            currentState = GameStatus.GameOver;
+        } else if (waveNumber == 0 && (totalKilled + roundEscaped) == 0)
+        {
+            currentState = GameStatus.Play;
+        } else if(waveNumber >= totalWaves)
+        {
+            currentState = GameStatus.Win;
+        }
+        else
+        {
+            currentState = GameStatus.Next;
+        }
+    }
+
+    public int TotalEscaped
+    {
+        get
+        {
+            return totalEscaped;
+        }
+
+        set
+        {
+            totalEscaped = value;
+        }
+    }
+
+    public int RoundEscaped
+    {
+        get
+        {
+            return roundEscaped;
+        }
+
+        set
+        {
+            roundEscaped = value;
+        }
+    }
+
+    public int TotalKilled
+    {
+        get
+        {
+            return totalKilled;
+        }
+
+        set
+        {
+            totalKilled = value;
+        }
+    }
+
+    public int TotalMoney
+    {
+        get
+        {
+            return totalMoney;
+        }
+
+        set
+        {
+            totalMoney = value;
+        }
     }
 }
