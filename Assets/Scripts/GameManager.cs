@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager>
     private GameObject spawnPoint;
 
     [SerializeField]
-    private GameObject[] enemies;
+    private Enemy[] enemies;
 
     [SerializeField]
     private int totalEnemies = 3;
@@ -56,9 +56,13 @@ public class GameManager : Singleton<GameManager>
     private int enemySelector = 0;
     private GameStatus currentState = GameStatus.Play;
 
+    private AudioSource audioSource;
+    private int enemiesToSpawn = 0;
+
     private void Start()
     {
         playBtn.gameObject.SetActive(false);
+        audioSource = GetComponent<AudioSource>(); 
         ShowMenu();
     }
 
@@ -75,7 +79,7 @@ public class GameManager : Singleton<GameManager>
             {
                 if (enemyList.Count < totalEnemies)
                 {
-                    GameObject newEmey = Instantiate(enemies[0]) as GameObject;
+                    Enemy newEmey = Instantiate(enemies[Random.Range(0, enemiesToSpawn)]) as Enemy;
                     newEmey.transform.position = spawnPoint.transform.position;
                 }
             }
@@ -124,7 +128,7 @@ public class GameManager : Singleton<GameManager>
         {
             case GameStatus.GameOver:
                 playBtnLbl.text = "Play Again";
-                //GameOver Sound
+                audioSource.PlayOneShot(SoundManager.Instance.GameOver);
                 break;
 
             case GameStatus.Next:
@@ -145,6 +149,7 @@ public class GameManager : Singleton<GameManager>
 
     private void HandleEscpace()
     {
+        totalEscapedLbl.text = "Escaped " + TotalEscaped + "/10";
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             TowerManager.Instance.DisableDragSprite();
@@ -159,6 +164,10 @@ public class GameManager : Singleton<GameManager>
         //Wave is over
         if(roundEscaped + totalKilled == totalEnemies)
         {
+            if (waveNumber <= enemies.Length)
+            {
+                enemiesToSpawn = waveNumber;
+            }
 
             SetCurrentGameState();
             ShowMenu();
@@ -177,11 +186,13 @@ public class GameManager : Singleton<GameManager>
                 totalEnemies = 3;
                 totalEscaped = 0;
                 totalMoney = 10;
+                enemiesToSpawn = 0;
                 TowerManager.Instance.DestroyAllTowers();
                 TowerManager.Instance.RenameTagsBuildSites();
                 totalMoneyLbl.text = totalMoney.ToString();
                 currentWaveLbl.text = "Wave " + waveNumber.ToString();
                 totalEscapedLbl.text = "Escaped " + TotalEscaped + "/10";
+                audioSource.PlayOneShot(SoundManager.Instance.NewGame); 
 
                 break;
         }
@@ -261,6 +272,14 @@ public class GameManager : Singleton<GameManager>
         set
         {
             totalMoney = value;
+        }
+    }
+
+    public AudioSource AudioSource
+    {
+        get
+        {
+            return audioSource;  
         }
     }
 }
